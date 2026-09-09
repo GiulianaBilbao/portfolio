@@ -1,0 +1,63 @@
+/*
+ * Global CSS custom-properties stylesheet stub.
+ * Design tokens for the Portfolio Coffee Table.
+ * Component-specific styles live in co-located *.module.css (CSS Modules).
+ */
+
+:root {
+  /* Color palette (editorial black-and-white) */
+  --color-bg: #ffffff;
+  --color-fg: #111111;
+  --color-muted: #6b6b6b;
+  --color-accent: #000000;
+  --color-focus-ring: #1a5fff;
+
+  /* Typography */
+  --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-family-display: 'Georgia', 'Times New Roman', serif;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+
+  /* Layout */
+  --grid-gap: var(--space-4);
+  --content-max-width: 1200px;
+
+  /* Animation (see Requirement 9: <=600ms budget) */
+  --anim-duration: 350ms;
+  --anim-duration-max: 600ms;
+  --anim-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  --lift-offset: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    /* Immediate state changes within the reduced-motion budget (<=50ms). */
+    --anim-duration: 0ms;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family-base);
+  color: var(--color-fg);
+  background: var(--color-bg);
+  /* Prevent horizontal overflow beyond the viewport width (Req 8.5). */
+  overflow-x: hidden;
+}

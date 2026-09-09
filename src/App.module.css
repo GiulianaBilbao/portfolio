@@ -1,0 +1,7 @@
+/* CSS Module stub for the App root. Demonstrates CSS Modules support. */
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
