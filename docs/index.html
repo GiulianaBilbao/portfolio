@@ -1,0 +1,2452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Giuliana C. Bilbao — Portfolio</title>
+<style>
+  :root {
+    --paper: #f0ece1;
+    --ink: #3a241c;
+    --muted: #8a7d6b;
+    --table: #e6e0d2;
+    --hairline: #d2c9b6;
+    --lift: 0 22px 40px -18px rgba(58, 36, 28, 0.45);
+    --rest: 0 8px 18px -12px rgba(58, 36, 28, 0.35);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --dur: 420ms;
+    --flip-dur: 600ms; /* page-turn timing (max allowed per spec Req 9.1) */
+
+    /* Vintage editorial palette (color-on-color pairings) */
+    --c-mint:    #bfe3dc;
+    --c-ochre:   #a67c1a;
+    --c-olive:   #6b6a1e;
+    --c-oxblood: #5c1f14;
+    --c-blue:    #2f2fd6;
+    --c-lilac:   #b57edc;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--table);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
+  }
+
+  /* ---------- Landing ---------- */
+  .landing {
+    min-height: 100vh;
+    padding: 40px clamp(24px, 6vw, 96px) 96px;
+  }
+
+  .name-treatment {
+    position: sticky;
+    top: 32px;
+    z-index: 20;
+    font-weight: 600;
+    font-size: clamp(20px, 2.2vw, 30px);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--ink);
+    /* children (the About link) need to be clickable; re-enable per-element */
+    pointer-events: none;
+  }
+  .name-treatment .sub {
+    display: block;
+    margin-top: 6px;
+    font-size: clamp(11px, 1vw, 13px);
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  /* "About" entry point sitting just beneath the name */
+  .about-link {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 0 0 3px;
+    font: inherit;
+    font-size: clamp(11px, 1vw, 13px);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--ink);
+    cursor: pointer;
+    pointer-events: auto; /* override the header's pointer-events: none */
+    transition: opacity var(--dur) var(--ease);
+  }
+  .about-link:hover { opacity: 0.55; }
+  .about-link:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+  .table-caption {
+    margin: 56px 0 22px;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ---------- Coffee table grid ---------- */
+  .coffee-table {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(24px, 4vw, 56px);
+    max-width: 1080px;
+  }
+  @media (max-width: 1023px) {
+    .coffee-table { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 639px) {
+    .coffee-table { grid-template-columns: 1fr; }
+  }
+
+  .book {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: 3 / 4;
+    border: none;
+    border-radius: 4px;
+    padding: 22px 20px;
+    cursor: pointer;
+    text-align: left;
+    color: #fff;
+    box-shadow: var(--rest);
+    transform: translateY(0);
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+    font: inherit;
+    overflow: hidden;
+  }
+  .book:hover, .book:focus-visible {
+    transform: translateY(-16px);
+    box-shadow: var(--lift);
+  }
+  .book:focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  .book .kicker {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .book .title {
+    margin-top: auto;
+    font-size: clamp(26px, 3vw, 40px);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+  .book .theme {
+    margin-top: 8px;
+    font-size: 12.5px;
+    font-weight: 400;
+    line-height: 1.35;
+    opacity: 0.9;
+  }
+  .book .motif {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    font-size: 30px;
+    opacity: 0.9;
+  }
+
+  /* Vintage color-on-color pairings */
+  .book.signals      { background: var(--c-mint);    color: var(--c-oxblood); }
+  .book.intelligence { background: var(--c-oxblood); color: var(--c-lilac); }
+  .book.robotics     { background: var(--c-blue);    color: var(--c-mint); }
+  .book.body         { background: var(--c-olive);   color: var(--c-mint); }
+  .book.product      { background: var(--c-ochre);   color: var(--c-blue); }
+  .book.sensors      { background: var(--c-lilac);   color: var(--c-oxblood); }
+  /* bottom row = inversions of existing books (swap bg/text) */
+  .book.research     { background: var(--c-mint);    color: var(--c-blue); }   /* inverse of Robotics */
+  .book.conferences  { background: var(--c-olive);   color: var(--c-lilac); }  /* inverse of Body (olive), warm text */
+  .book.outreach     { background: var(--c-blue);    color: var(--c-ochre); }  /* inverse of Product */
+
+  /* ---------- Portfolio overlay ---------- */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(20, 24, 28, 0.55);
+    padding: clamp(16px, 4vw, 48px);
+  }
+  .overlay.open { display: flex; }
+
+  .portfolio {
+    position: relative;
+    width: min(1100px, 100%);
+    height: min(700px, 92vh);
+    background: var(--paper);
+    border-radius: 6px;
+    box-shadow: 0 40px 80px -24px rgba(0,0,0,0.6);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+    transform: scale(0.96);
+    opacity: 0;
+    transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
+    /* 3D stage for page turning */
+    perspective: 2200px;
+    perspective-origin: center center;
+  }
+  .overlay.open .portfolio { transform: scale(1); opacity: 1; }
+
+  @media (max-width: 639px) {
+    .portfolio { grid-template-columns: 1fr; }
+    .page.left { display: none; }
+  }
+
+  /* ---------- StPageFlip variant ---------- */
+  /* In this build the two-page grid is replaced by a single StPageFlip mount.
+     Override the grid so the library controls layout. */
+  .portfolio.pf-host {
+    display: flex;
+    flex-direction: column;
+    align-items: center;      /* center the book horizontally */
+    justify-content: center;  /* center it vertically in the panel */
+    grid-template-columns: none;
+    perspective: none;        /* the library manages its own 3D */
+    background: var(--table);
+    padding-bottom: 64px;     /* clear the chrome bar */
+  }
+  #book { margin: 0 auto; }
+  /* Fixed-size book: center the library's parent wrapper in the panel. */
+  .pf-host .stf__parent { margin-left: auto; margin-right: auto; }
+  /* Each StPageFlip page: a single sheet of paper (not a two-page grid). */
+  .pf-page {
+    background: var(--paper);
+    color: var(--ink);
+    overflow: hidden;
+  }
+  .pf-page .page {
+    position: static;
+    height: 100%;
+    padding: clamp(24px, 3.5vw, 44px);
+    overflow-y: auto;
+  }
+  /* hard cover pages (front/back): no paper, the colored tile fills the board */
+  .pf-page.pf-cover {
+    background: transparent;
+    box-shadow: none;
+  }
+  /* soft page edge/gutter shading for depth (library also draws shadows).
+     Suppressed on covers so it doesn't darken the colored board. */
+  .pf-page:not(.pf-cover)::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 24px;
+    pointer-events: none;
+    background: linear-gradient(to right, rgba(0,0,0,0.10), rgba(0,0,0,0) 100%);
+  }
+  /* the StPageFlip wrapper needs a stacking context above the scrim */
+  .stf__parent { z-index: 1; }
+
+  /* ---------- Hard covers (front opens, back closes) ---------- */
+  /* The cover reuses the EXACT `.book <cls>` shelf tile (so colors + type are
+     identical). `.book-on-cover` overrides the shelf-only bits: fill the board
+     edge-to-edge, drop the 3/4 aspect-ratio and the hover lift. */
+  .pf-page.pf-cover { padding: 0; }
+  .book.book-on-cover {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;          /* shelf uses 3/4; here we fill the page */
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    padding: clamp(26px, 3.4vw, 40px);
+    cursor: default;
+    transform: none !important;  /* no hover lift on the cover */
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+    /* scale the shelf typography up a touch for the larger board */
+    font-size: 1.15rem;
+  }
+  .book.book-on-cover:hover { transform: none !important; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12); }
+  .book.book-on-cover .title { font-size: clamp(38px, 5.5vw, 60px); }
+  .book.book-on-cover .motif { font-size: 40px; top: clamp(26px,3.4vw,40px); right: clamp(26px,3.4vw,40px); }
+
+  /* Back board: same tile, but drop the descriptive text so it reads as a
+     closing cover rather than a title page. */
+  .book.book-on-cover.is-back .title,
+  .book.book-on-cover.is-back .theme { display: none; }
+  .book.book-on-cover.is-back .kicker { margin-top: auto; }
+
+  /* blank padding page: plain paper, no frame */
+  .pf-page.pf-blank { background: var(--paper); }
+
+  .page {
+    position: relative;
+    padding: clamp(28px, 4vw, 56px);
+    overflow-y: auto;
+  }
+  .page.left  { border-right: 1px solid var(--hairline); }
+  /* right page becomes a column so the gallery can grow to fill height */
+  .page.right { display: flex; flex-direction: column; }
+  .page.right .eyebrow { flex: 0 0 auto; }
+
+  /* binder rings down the center gutter */
+  .rings {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    pointer-events: none;
+  }
+  @media (max-width: 639px) { .rings { display: none; } }
+  .rings span {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 3px solid var(--muted);
+    background: var(--paper);
+    box-shadow: inset 0 2px 3px rgba(0,0,0,0.2);
+  }
+
+  /* ---------- 3D page turn (two-faced sheet) ---------- */
+  /* Proven book-flip model (turn.js / StPageFlip style):
+       - The DESTINATION page is rendered underneath BEFORE the turn starts.
+       - A sheet hinged at the spine carries the OUTGOING page on its front face
+         and blank paper on its back face, and rotates 0 -> -180 (next).
+     You see the current page lift and turn over, its blank back sweep across,
+     and the destination page revealed beneath. No timed content swap, so there
+     is no flash and no race condition. */
+  .turn-sheet {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 9;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    will-change: transform;
+    pointer-events: none;
+  }
+  /* Motion shaping (kept within the 600ms spec cap): the rotation is eased with
+     a paper-like curve and the sheet lifts off the spine (translateZ) so it
+     arcs up like a turning page instead of pivoting like a flat card. */
+  .turn-sheet.next { animation: turnNext var(--flip-dur) cubic-bezier(0.42, 0, 0.35, 1) forwards; }
+  .turn-sheet.prev { animation: turnPrev var(--flip-dur) cubic-bezier(0.42, 0, 0.35, 1) forwards; }
+  @keyframes turnNext {
+    0%   { transform: translateZ(0)    rotateY(0deg); }
+    35%  { transform: translateZ(60px) rotateY(-58deg); }
+    50%  { transform: translateZ(80px) rotateY(-90deg); }
+    65%  { transform: translateZ(60px) rotateY(-122deg); }
+    100% { transform: translateZ(0)    rotateY(-180deg); }
+  }
+  /* PREV: the incoming sheet starts turned over on the left and lays down flat */
+  @keyframes turnPrev {
+    0%   { transform: translateZ(0)    rotateY(-180deg); }
+    35%  { transform: translateZ(60px) rotateY(-122deg); }
+    50%  { transform: translateZ(80px) rotateY(-90deg); }
+    65%  { transform: translateZ(60px) rotateY(-58deg); }
+    100% { transform: translateZ(0)    rotateY(0deg); }
+  }
+
+  .turn-sheet .face {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    backface-visibility: hidden;
+    background: var(--paper);
+    box-shadow: 0 0 40px -12px rgba(0,0,0,0.4);
+  }
+
+  /* Contact shadow the lifting sheet casts on the pages beneath. Sits just
+     under the sheet, spreads and darkens as the page reaches its apex, then
+     settles — reads as the gap between a raised page and the spread below. */
+  .turn-shadow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 8; /* below the sheet (9), above the static pages */
+    transform-origin: left center;
+    pointer-events: none;
+    background: radial-gradient(120% 80% at 0% 50%,
+      rgba(0,0,0,0.28), rgba(0,0,0,0.12) 45%, rgba(0,0,0,0) 72%);
+    opacity: 0;
+  }
+  .turn-shadow.next,
+  .turn-shadow.prev { animation: castShadow var(--flip-dur) ease-in-out forwards; }
+  @keyframes castShadow {
+    0%   { opacity: 0;    transform: scaleX(1)    skewY(0deg); }
+    50%  { opacity: 0.55; transform: scaleX(0.72) skewY(2.5deg); }
+    100% { opacity: 0;    transform: scaleX(1)    skewY(0deg); }
+  }
+  /* front = the outgoing page content (a real .page.right); faces the reader at 0deg */
+  .turn-sheet .face.front { transform: rotateY(0deg); }
+  /* back = blank paper (the underside of the turning page); faces reader at 180deg */
+  .turn-sheet .face.back  {
+    transform: rotateY(180deg);
+    background:
+      linear-gradient(to left, rgba(0,0,0,0.05), rgba(0,0,0,0) 10%),
+      var(--paper);
+  }
+
+  /* shading overlay per face: darkens as that face rotates toward edge-on */
+  .turn-sheet .face::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      /* soft self-shadow toward the spine, as if the page bows */
+      linear-gradient(to left, rgba(0,0,0,0.34), rgba(0,0,0,0) 60%),
+      /* faint gutter darkening at the hinged (left) edge */
+      linear-gradient(to right, rgba(0,0,0,0.18), rgba(0,0,0,0) 12%);
+    opacity: 0;
+  }
+  /* Shading now peaks at the 90deg midpoint (edge-on) instead of the end,
+     so a face is darkest exactly when it faces away from the light. */
+  .turn-sheet.next .face.front::after { animation: shadeToEdge var(--flip-dur) ease-in forwards; }
+  .turn-sheet.next .face.back::after  { animation: shadeFromEdge var(--flip-dur) ease-out forwards; }
+  .turn-sheet.prev .face.back::after  { animation: shadeToEdge var(--flip-dur) ease-in forwards; }
+  .turn-sheet.prev .face.front::after { animation: shadeFromEdge var(--flip-dur) ease-out forwards; }
+  @keyframes shadeToEdge   { 0% { opacity: 0; } 100% { opacity: 0.92; } }
+  @keyframes shadeFromEdge { 0% { opacity: 0.92; } 100% { opacity: 0; } }
+
+  /* page curl: a soft lit band along the sheet's free (spine-opposite) edge */
+  .turn-sheet .face::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; right: 0;
+    width: 40%;
+    pointer-events: none;
+    background: linear-gradient(to right,
+      rgba(0,0,0,0) 0%,
+      rgba(255,255,255,0.22) 65%,
+      rgba(0,0,0,0.15) 100%);
+    opacity: 0;
+  }
+  .turn-sheet.next .face.front::before { animation: curlArc var(--flip-dur) var(--ease) forwards; }
+  .turn-sheet.prev .face.front::before { animation: curlArc var(--flip-dur) var(--ease) forwards; }
+  @keyframes curlArc {
+    0%   { opacity: 0; }
+    40%  { opacity: 1; }
+    75%  { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .turn-sheet { display: none !important; }
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .proj-title {
+    font-size: clamp(22px, 2.4vw, 30px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 12px;
+    line-height: 1.05;
+  }
+  .proj-desc {
+    font-size: 14px;
+    line-height: 1.55;
+    color: #303538;
+    margin: 0 0 20px;
+    max-width: 42ch;
+  }
+  .proj-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: repeating-linear-gradient(45deg, #ddd8ce, #ddd8ce 12px, #e7e3db 12px, #e7e3db 24px);
+    border: 1px solid var(--hairline);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    overflow: hidden;
+  }
+  /* real image fills the plate, always in full color */
+  .proj-image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1);
+    transition: transform var(--dur) var(--ease);
+  }
+  .proj-image:hover img { transform: scale(1.03); }
+  /* contain mode: show the whole image (diagrams, posters, protocols) on a matte */
+  .proj-image.fit-contain { background: #efeadf; }
+  .proj-image.fit-contain img { object-fit: contain; padding: 10px; }
+  .proj-image.fit-contain:hover img { transform: none; }
+  /* explicit cover override (default behavior, named for clarity) */
+  .proj-image.fit-cover img { object-fit: cover; padding: 0; }
+  /* placeholder for a project that has no image assigned yet */
+  .proj-image.image-todo {
+    background: #efeadf;
+    border: 1px dashed var(--muted);
+    color: var(--muted);
+    font-size: 11px;
+  }
+  /* caption chip shown over the image */
+  .proj-image .cap {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    z-index: 2;
+    background: rgba(240, 236, 225, 0.85);
+    color: var(--ink);
+    padding: 3px 8px;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    border-radius: 3px;
+  }
+  /* ---------- Editorial "Selected work" gallery ---------- */
+  /* Fills the page for big, magazine-style visuals. Layout adapts to count. */
+  .gallery {
+    display: grid;
+    gap: 14px;
+    margin-top: 16px;
+    /* top-align to the eyebrow; do NOT stretch to fill the page height, so
+       plates are a stable, consistent size across every page/flip */
+    flex: 0 0 auto;
+    align-content: start;
+  }
+  /* plates get a FIXED aspect ratio so their pixel size is deterministic and
+     doesn't change between spreads (no resize on flip) */
+  .gallery .proj-image {
+    height: auto;
+    border-radius: 3px;
+  }
+  .gallery .proj-image img { border-radius: 3px; }
+
+  /* one big hero — landscape plate, top of page */
+  .gallery.solo .proj-image { aspect-ratio: 4 / 3; }
+
+  /* hero + wide band */
+  .gallery.duo { grid-template-columns: 1fr; }
+  .gallery.duo .proj-image { aspect-ratio: 16 / 9; }
+
+  /* hero spanning the top, two beneath */
+  .gallery.trio { grid-template-columns: 1fr 1fr; }
+  .gallery.trio .proj-image { aspect-ratio: 4 / 3; }
+  .gallery.trio .proj-image:first-child { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
+
+  /* larger, more legible caption for the big gallery images */
+  .gallery .proj-image .cap {
+    left: 12px;
+    bottom: 12px;
+    font-size: 10px;
+    padding: 4px 10px;
+    background: rgba(240, 236, 225, 0.9);
+  }
+
+  .metadata {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 24px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-top: 1px solid var(--hairline);
+    padding-top: 18px;
+  }
+  .metadata .label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .metadata a { color: var(--ink); }
+
+  /* project meta (org + date) shown under the title */
+  .proj-meta {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 0 0 16px;
+    line-height: 1.4;
+  }
+  .proj-meta .org { font-weight: 600; color: var(--ink); }
+
+  /* repository link */
+  .repo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 18px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px;
+    transition: opacity var(--dur) var(--ease);
+  }
+  .repo-link:hover { opacity: 0.6; }
+  .repo-link:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+  /* group of links under a project */
+  .proj-links { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 18px; }
+  .proj-links .repo-link { margin-top: 0; }
+
+  /* publication / featured external link — filled accent pill */
+  .pub-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    text-decoration: none;
+    padding: 9px 14px;
+    border-radius: 999px;
+    transition: opacity var(--dur) var(--ease);
+  }
+  .pub-link:hover { opacity: 0.75; }
+  .pub-link:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+  /* code marker in the contents list */
+  .toc-code {
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    border: 1px solid var(--hairline);
+    border-radius: 3px;
+    padding: 1px 4px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  /* publication marker in the contents list */
+  .toc-pub {
+    font-size: 11px;
+    color: var(--ink);
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* tag chips */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+  .tags span {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    padding: 4px 9px;
+  }
+
+  /* ---------- Index / table of contents ---------- */
+  .index-title {
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    line-height: 0.95;
+    margin: 0 0 6px;
+  }
+  .index-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 26px;
+  }
+  .contents {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: toc;
+  }
+  .contents li {
+    counter-increment: toc;
+    display: grid;
+    grid-template-columns: 34px 1fr auto;
+    align-items: baseline;
+    gap: 12px;
+    padding: 14px 0;
+    border-top: 1px solid var(--hairline);
+    cursor: pointer;
+  }
+  .contents li:last-child { border-bottom: 1px solid var(--hairline); }
+  .contents li::before {
+    content: counter(toc, decimal-leading-zero);
+    font-size: 12px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .contents .toc-title { font-size: 15px; font-weight: 600; line-height: 1.25; }
+  .contents .toc-org { display: block; font-size: 11px; font-weight: 400; color: var(--muted); margin-top: 2px; }
+  .contents .toc-page { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .contents li:hover .toc-title { text-decoration: underline; }
+  .contents li:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  /* ---------- Portfolio chrome ---------- */
+  .chrome {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px clamp(20px, 3vw, 40px);
+    background: linear-gradient(to top, var(--paper), rgba(242,239,233,0));
+    z-index: 5;
+  }
+  .btn {
+    font: inherit;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    padding: 9px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background var(--dur) var(--ease), color var(--dur) var(--ease), opacity var(--dur) var(--ease);
+  }
+  .btn:hover:not(:disabled) { background: var(--ink); color: var(--paper); }
+  .btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  .btn:disabled { opacity: 0.35; cursor: default; }
+
+  .page-indicator {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+  .nav-group { display: flex; gap: 10px; }
+
+  .return {
+    position: absolute;
+    top: 16px; right: 16px;
+    z-index: 6;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .return:hover { background: var(--ink); color: var(--paper); }
+  .return:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+  .hint {
+    position: fixed;
+    bottom: 18px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    z-index: 10;
+  }
+
+  /* ---------- Password gate (Tier-1 soft gate) ---------- */
+  /* Covers the whole site until the correct word is entered. NOTE: this is a
+     casual gate, not real security — the page content still exists in source. */
+  .gate {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--table);
+    padding: 24px;
+    transition: opacity 420ms var(--ease);
+  }
+  .gate.hidden { opacity: 0; pointer-events: none; }
+  /* while locked, prevent the page behind from scrolling/showing */
+  body.locked { overflow: hidden; }
+  body.locked .landing,
+  body.locked .hint { visibility: hidden; }
+
+  .gate-card {
+    width: min(420px, 100%);
+    background: var(--paper);
+    border-radius: 8px;
+    box-shadow: var(--lift);
+    padding: clamp(28px, 5vw, 44px);
+    text-align: left;
+  }
+  .gate-card .eyebrow-k {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 10px;
+  }
+  .gate-card h2 {
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    margin: 0 0 8px;
+    color: var(--ink);
+  }
+  .gate-card p {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #51463b;
+    margin: 0 0 22px;
+  }
+  .gate-form { display: flex; flex-direction: column; gap: 12px; }
+  .gate-form input {
+    font: inherit;
+    font-size: 15px;
+    padding: 12px 14px;
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--ink);
+  }
+  .gate-form input:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .gate-form button {
+    font: inherit;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: opacity var(--dur) var(--ease);
+  }
+  .gate-form button:hover { opacity: 0.8; }
+  .gate-error {
+    font-size: 12px;
+    color: var(--c-oxblood);
+    min-height: 1.2em;
+    margin: 2px 0 0;
+  }
+
+  /* ---------- About overlay ---------- */
+  /* Reuses the dim-scrim overlay pattern, but the panel is a single scrollable
+     sheet (no two-page book) since this is narrative, not a project gallery. */
+  .about-panel {
+    position: relative;
+    width: min(760px, 100%);
+    height: min(760px, 92vh);
+    background: var(--paper);
+    border-radius: 6px;
+    box-shadow: 0 40px 80px -24px rgba(0,0,0,0.6);
+    overflow-y: auto;
+    padding: clamp(32px, 5vw, 72px);
+    transform: scale(0.96);
+    opacity: 0;
+    transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
+  }
+  .overlay.open .about-panel { transform: scale(1); opacity: 1; }
+
+  .about-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 14px;
+  }
+  .about-name {
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin: 0 0 6px;
+  }
+  .about-tagline {
+    font-size: clamp(15px, 1.6vw, 18px);
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--ink);
+    margin: 0;
+    max-width: 46ch;
+  }
+
+  /* Masthead: name/tagline on the left, portrait card on the right. */
+  .about-header {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(18px, 3vw, 32px);
+    margin: 0 0 28px;
+  }
+  .about-header-text { flex: 1 1 auto; min-width: 0; }
+  .about-portrait {
+    flex: 0 0 auto;
+    width: clamp(96px, 12vw, 132px);
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #efeadf;
+    border: 1px solid var(--hairline);
+    box-shadow: var(--rest);
+  }
+  .about-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* on narrow panels, stack the portrait above the text */
+  @media (max-width: 520px) {
+    .about-header { flex-direction: column-reverse; align-items: flex-start; }
+    .about-portrait { width: clamp(110px, 34vw, 150px); }
+  }
+
+  .about-body p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: #303538;
+    margin: 0 0 18px;
+    max-width: 62ch;
+  }
+  .about-body h3 {
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 32px 0 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--hairline);
+  }
+  .about-body strong { color: var(--ink); }
+
+  .about-highlights {
+    list-style: none;
+    margin: 0 0 8px;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .about-highlights li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #303538;
+  }
+  .about-highlights li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+  }
+
+  .about-links { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+
+  /* ---------- About folder tabs ---------- */
+  /* Manila-folder tab strip echoing the coffee-table book palette. Active tab
+     sits flush against the content panel below it, like a real file folder. */
+  .about-tabs {
+    display: flex;
+    gap: 6px;
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+    z-index: 2;
+  }
+  .about-tab {
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--tab-bg, var(--table));
+    border: none;
+    border-radius: 8px 8px 0 0;
+    padding: 11px 18px 13px;
+    cursor: pointer;
+    opacity: 0.62;
+    transform: translateY(3px);
+    transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+  }
+  .about-tab:hover { opacity: 0.85; }
+  .about-tab[aria-selected="true"] {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 -3px 8px -4px rgba(58, 36, 28, 0.4);
+  }
+  .about-tab:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+  /* per-tab colors drawn from the book palette */
+  .about-tab.t-honors     { --tab-bg: var(--c-olive); color: var(--c-mint); }
+  .about-tab.t-coursework { --tab-bg: var(--c-mint);  color: var(--c-oxblood); }
+  .about-tab.t-sop        { --tab-bg: var(--c-blue);  color: var(--c-mint); }
+
+  /* the panel the tabs attach to */
+  .about-folder {
+    background: var(--paper);
+    border-top: 3px solid var(--ink);
+    border-radius: 0 8px 8px 8px;
+    padding: 26px 4px 4px;
+    margin-bottom: 8px;
+  }
+  .about-folder[hidden] { display: none; }
+
+  .tabpanel[hidden] { display: none; }
+
+  /* two-column coursework listing */
+  .course-groups {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 28px;
+  }
+  @media (max-width: 560px) { .course-groups { grid-template-columns: 1fr; } }
+  .course-group h4 {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+  .course-group ul { list-style: none; margin: 0; padding: 0; }
+  .course-group li {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: #303538;
+    padding: 3px 0;
+  }
+  .course-placeholder {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--muted);
+    margin: 4px 0 18px;
+  }
+
+  /* Honors / selective-program progression, rendered as a vertical arc. */
+  .about-track {
+    list-style: none;
+    margin: 4px 0 8px;
+    padding: 0;
+  }
+  .about-track li {
+    position: relative;
+    padding: 0 0 20px 26px;
+    border-left: 2px solid var(--hairline);
+  }
+  .about-track li:last-child { padding-bottom: 0; border-left-color: transparent; }
+  .about-track li::before {
+    content: "";
+    position: absolute;
+    left: -7px;
+    top: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 2px solid var(--muted);
+  }
+  /* the two marquee honors get a filled marker */
+  .about-track li.marquee::before { background: var(--ink); border-color: var(--ink); }
+  .about-track .year {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+  .about-track .honor { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+  .about-track .honor .note { font-weight: 400; color: var(--muted); }
+</style>
+</head>
+<body class="locked">
+  <!-- Tier-1 password gate. Casual gate only; not real security. -->
+  <div class="gate" id="gate" role="dialog" aria-modal="true" aria-label="Enter password">
+    <div class="gate-card">
+      <p class="eyebrow-k">Portfolio</p>
+      <h2>Giuliana C. Bilbao</h2>
+      <p>This portfolio is password-protected. Enter the password from my resume to view.</p>
+      <form class="gate-form" id="gateForm" autocomplete="off">
+        <input type="password" id="gateInput" aria-label="Password"
+               placeholder="Password" autocomplete="off" autofocus>
+        <button type="submit">Enter</button>
+        <p class="gate-error" id="gateError" role="alert"></p>
+      </form>
+    </div>
+  </div>
+
+  <main class="landing">
+    <h1 class="name-treatment">
+      Giuliana C. Bilbao
+      <span class="sub">Machine Learning · Biomedical Engineering</span>
+      <button class="about-link" id="aboutLink" aria-haspopup="dialog">About</button>
+    </h1>
+
+    <p class="table-caption">Select a volume</p>
+
+    <div class="coffee-table" id="coffeeTable" role="list"></div>
+  </main>
+
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Portfolio book">
+    <article class="portfolio" id="portfolio"></article>
+  </div>
+
+  <div class="overlay" id="aboutOverlay" role="dialog" aria-modal="true" aria-label="About Giuliana C. Bilbao">
+    <article class="about-panel" id="aboutPanel">
+      <button class="return" id="aboutReturnBtn" aria-label="Close about">✕</button>
+
+      <div class="about-header">
+        <div class="about-header-text">
+          <p class="about-eyebrow">About</p>
+          <h2 class="about-name">Giuliana C. Bilbao</h2>
+          <p class="about-tagline">
+            A biomedical engineer building machine learning on physiological signals
+            to drive intelligent medical devices and patient outcomes.
+          </p>
+        </div>
+        <figure class="about-portrait">
+          <img src="images/headshot.jpg" alt="Portrait of Giuliana C. Bilbao"
+               onerror="this.closest('.about-portrait').style.display='none'">
+        </figure>
+      </div>
+
+      <ul class="about-tabs" role="tablist" aria-label="About sections">
+        <li role="presentation">
+          <button class="about-tab t-honors" id="tab-honors" role="tab"
+                  aria-selected="true" aria-controls="panel-honors">
+            Honors &amp; Education
+          </button>
+        </li>
+        <li role="presentation">
+          <button class="about-tab t-coursework" id="tab-coursework" role="tab"
+                  aria-selected="false" aria-controls="panel-coursework" tabindex="-1">
+            Coursework
+          </button>
+        </li>
+        <li role="presentation">
+          <button class="about-tab t-sop" id="tab-sop" role="tab"
+                  aria-selected="false" aria-controls="panel-sop" tabindex="-1">
+            Statement of Purpose
+          </button>
+        </li>
+      </ul>
+
+      <div class="about-folder">
+        <!-- Tab 1: Honors & Education -->
+        <div class="tabpanel about-body" id="panel-honors" role="tabpanel"
+             aria-labelledby="tab-honors" tabindex="0">
+          <h3>Education</h3>
+          <ul class="about-track">
+            <li class="marquee">
+              <span class="year">Columbia University &middot; Dec 2025</span>
+              <span class="honor">M.S., Biomedical Engineering
+                <span class="note">&mdash; Bioinformatics &amp; Machine Learning Track</span></span>
+            </li>
+            <li class="marquee">
+              <span class="year">Columbia University &middot; May 2024</span>
+              <span class="honor">B.S., Biomedical Engineering
+                <span class="note">&mdash; Neural Engineering concentration, minor in Psychology</span></span>
+            </li>
+          </ul>
+
+          <h3>Selected honors &amp; programs</h3>
+          <ul class="about-track">
+            <li>
+              <span class="year">Columbia Engineering</span>
+              <span class="honor">Davis Scholar in Engineering</span>
+            </li>
+            <li>
+              <span class="year">Columbia</span>
+              <span class="honor">CUSP Scholars Program</span>
+            </li>
+            <li>
+              <span class="year">Columbia</span>
+              <span class="honor">AMGEN Scholars Program
+                <span class="note">&mdash; competitive national summer research program; VTA stress &amp; depression signaling</span></span>
+            </li>
+            <li>
+              <span class="year">Switzerland</span>
+              <span class="honor">Fulbright U.S. Student Program &mdash; Finalist
+                <span class="note">&mdash; advanced to the final selection round</span></span>
+            </li>
+            <li class="marquee">
+              <span class="year">Cell Press</span>
+              <span class="honor">Contributor, <em>Neuron</em> publication</span>
+            </li>
+            <li class="marquee">
+              <span class="year">Present</span>
+              <span class="honor">Johnson &amp; Johnson Technology Leadership Development Program
+                <span class="note">&mdash; Technical Product Owner of PRISM; secured VP-level sponsorship within my first year</span></span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Tab 2: Coursework -->
+        <div class="tabpanel about-body" id="panel-coursework" role="tabpanel"
+             aria-labelledby="tab-coursework" tabindex="0" hidden>
+          <p class="course-placeholder">
+            Draft &mdash; replace with your actual course titles.
+          </p>
+          <div class="course-groups">
+            <div class="course-group">
+              <h4>Machine Learning &amp; AI</h4>
+              <ul>
+                <li>Robot Learning</li>
+                <li>Deep Learning</li>
+                <li>Machine Learning</li>
+              </ul>
+            </div>
+            <div class="course-group">
+              <h4>Signals, Systems &amp; Control</h4>
+              <ul>
+                <li>Digital Signal Processing</li>
+                <li>Signals &amp; Systems</li>
+                <li>Control / Dynamical Systems</li>
+              </ul>
+            </div>
+            <div class="course-group">
+              <h4>Mathematics &amp; Computation</h4>
+              <ul>
+                <li>Linear Algebra</li>
+                <li>Probability &amp; Statistics</li>
+                <li>Differential Equations</li>
+              </ul>
+            </div>
+            <div class="course-group">
+              <h4>Biomedical &amp; Physiology</h4>
+              <ul>
+                <li>Quantitative Physiology I &amp; II</li>
+                <li>Computational Modeling of Physiological Systems</li>
+                <li>Biomedical Instrumentation</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Statement of Purpose -->
+        <div class="tabpanel about-body" id="panel-sop" role="tabpanel"
+             aria-labelledby="tab-sop" tabindex="0" hidden>
+          <p>
+            I started in the wet lab &mdash; running rodent behavioral, optogenetics,
+            and fiber-photometry experiments in neuroscience labs, and harvesting
+            tissue for osteoarthritis biomechanics studies. As an
+            <strong>AMGEN Scholar</strong> at Columbia I studied VTA signaling in
+            stress-induced depression, which crystallized my interest in the
+            circuits behind behavior. Working that close to living systems is what
+            pulled me toward the data they produce: I began writing the
+            signal-processing and machine-learning pipelines that turned raw neural,
+            cardiac, and mechanical recordings into something you could actually
+            reason about. Contributing to work later published in
+            <strong>Neuron</strong> (Cell Press) showed me how much sat in that gap
+            between an experiment and its interpretation.
+          </p>
+          <p>
+            From there my work converged on a single throughline: <strong>applying
+            ML and signal processing to the body</strong> &mdash; from-scratch DSP
+            toolkits and EEG/EMG BCI analysis, foundation time-series models on
+            wearable biosignals (PPG, PSG, ACC) for sleep staging and disease
+            prediction, learned-dynamics control and diffusion policies for robot
+            arms, and hardware I designed and characterized myself, including an EKG
+            front-end and the sensing subsystem of a patented adaptive medical device.
+          </p>
+          <p>
+            At <strong>Johnson &amp; Johnson's Technology Leadership Development
+            Program</strong> I work across digital-health foundation models,
+            clinical stroke-risk prediction, and the product and human-factors side
+            of regulated medical software &mdash; which taught me to build technology
+            that has to survive contact with real clinicians and real patients, not
+            just a benchmark.
+          </p>
+        </div>
+      </div>
+
+      <div class="about-links">
+        <a class="pub-link" href="https://www.cell.com/neuron/pdf/S0896-6273(26)00004-8.pdf" target="_blank" rel="noopener">
+          <span aria-hidden="true">&#9656;</span> Read the Neuron paper
+        </a>
+        <a class="repo-link" href="https://linkedin.com/in/giuliana-bilbao" target="_blank" rel="noopener">
+          <span aria-hidden="true">&#8599;</span> LinkedIn
+        </a>
+        <a class="repo-link" href="https://github.com/GiulianaBilbao" target="_blank" rel="noopener">
+          <span aria-hidden="true">&#8599;</span> GitHub
+        </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="hint">Hover a book · click to open · drag a corner or ← → to flip · Esc to close</div>
+
+  <!-- StPageFlip (realistic page-turn engine). UMD build exposes global `St`.
+       Loaded from CDN so this file works by double-clicking (file://). -->
+  <script src="https://unpkg.com/page-flip/dist/js/page-flip.browser.js"></script>
+
+  <script>
+    // ================= Tier-1 password gate =================
+    // Soft gate only (content still exists in page source). The password is
+    // stored as a SHA-256 hash so a casual "View Source" doesn't reveal it.
+    // ---- TO CHANGE THE PASSWORD ----
+    // Run in a terminal:  echo -n "yourword" | shasum -a 256
+    // then paste the hex result below. Current password: authentication
+    const GATE_HASH = "b9d90628453938c578c7f826de5e5bd2bcac29e10c5526888384ba74fcea563e";
+    const GATE_KEY  = "gbilbao_portfolio_unlocked";
+
+    (function initGate() {
+      const gate = document.getElementById("gate");
+      const form = document.getElementById("gateForm");
+      const input = document.getElementById("gateInput");
+      const errEl = document.getElementById("gateError");
+      if (!gate || !form) return;
+
+      function unlock() {
+        document.body.classList.remove("locked");
+        gate.classList.add("hidden");
+        // remove from the tab order once hidden
+        setTimeout(() => { gate.style.display = "none"; }, 450);
+      }
+
+      // Already unlocked this session? skip the prompt.
+      try {
+        if (sessionStorage.getItem(GATE_KEY) === "1") { unlock(); return; }
+      } catch (e) { /* sessionStorage may be blocked; just show the gate */ }
+
+      async function sha256Hex(str) {
+        // Prefer the Web Crypto API; needs a secure context (https) or file://.
+        if (window.crypto && crypto.subtle) {
+          const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+          return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+        }
+        return null; // no subtle crypto available
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        errEl.textContent = "";
+        const val = (input.value || "").trim();
+        if (!val) { errEl.textContent = "Please enter the password."; return; }
+        const hex = await sha256Hex(val);
+        if (hex === null) {
+          errEl.textContent = "This browser can't verify the password here. Try opening over https.";
+          return;
+        }
+        if (hex === GATE_HASH) {
+          try { sessionStorage.setItem(GATE_KEY, "1"); } catch (e) { /* ignore */ }
+          unlock();
+        } else {
+          errEl.textContent = "Incorrect password. Please try again.";
+          input.select();
+        }
+      });
+    })();
+
+    // ---------------- Sector configuration (six books) ----------------
+    // Content organized from resume material into thematic books.
+    // Each project: { title, org, date, desc, tags, images }
+    const SECTORS = [
+      {
+        id: "signals", cls: "signals", title: "Signals", motif: "◎",
+        theme: "Non-invasive and invasive biosignal recording and analysis",
+        metadata: { location: "New York, NY", date: "2021 — Present", contact: "linkedin.com/in/giuliana-bilbao" },
+        cover: { src: "images/human_vs_electrical_bodies_art.jpg", alt: "Golgi-stained neurons illustration" },
+        projects: [
+          {
+            title: "Biosignal Digital Signal Processing Toolkit",
+            org: "Signal Processing & Modeling · Columbia",
+            date: "2024 — 2025",
+            desc: "Implemented a from-scratch MATLAB DSP toolkit for biosignals, working with EEG, EMG, spike, and audio data. Built custom FIR and IIR filters, implemented overlap-add and overlap-save methods for efficient linear convolution, and applied spectral analysis and the Z-transform to characterize signals. Applied the pipeline to real biosignal tasks including EEG error-related-negativity (ERN) detection.",
+            tags: ["MATLAB", "DSP", "FIR/IIR filters", "FFT", "EEG/EMG"],
+            repo: "https://github.com/GiulianaBilbao/biosignal-processing-and-classification",
+            images: [{ src: "images/face_vs_car_eeg.webp", alt: "EEG signal processing" }]
+          },
+          {
+            title: "BCI EEG/EMG Signal Analysis",
+            org: "GitHub · Brain-Computer Interfaces Lab",
+            date: "2024 — 2025",
+            desc: "Eight-session BCI lab series analyzing EEG/EMG in MATLAB and Simulink: power-spectrum estimation, alpha-theta modulation, P300 spelling (row/column paradigm), SSVEP under 12/20/30 Hz stimulation, and stereo ASSR. Includes gUSBamp acquisition configs, trial matrices, and lab reports.",
+            tags: ["MATLAB", "Simulink", "EEG", "P300", "SSVEP"],
+            repo: "https://github.com/GiulianaBilbao/bci-eeg-emg-signal-analysis",
+            images: [{ src: "images/ekg_breadboard.webp", alt: "EEG/EMG acquisition hardware" }]
+          },
+          {
+            title: "Car vs. Face EEG — Transformer",
+            org: "GitHub · Car_vs_Face_EEG",
+            date: "2025",
+            desc: "Reworking of an EEG visual-category task (car vs. face) with a Transformer classifier, built on EEGLAB-processed signals in MATLAB to decode object-category responses from single-trial EEG.",
+            tags: ["Transformer", "EEG", "EEGLAB", "MATLAB"],
+            repo: "https://github.com/GiulianaBilbao/Car_vs_Face_EEG",
+            images: [
+              { src: "images/face_vs_car_eeg.webp", alt: "Face vs. car EEG classification result" }
+            ]
+          },
+          {
+            title: "Voltage-Indicator Event Analysis",
+            org: "Losonczy Lab, Zuckerman Institute",
+            date: "Aug 2024 — Present",
+            desc: "Conducted statistical analysis of basal vs. apical event probabilities at varying distances from the soma in hippocampal neurons to investigate the functionality of voltage indicators and imaging methods. This analysis contributed to work published in Neuron (Cell Press).",
+            tags: ["Statistics", "Neuroscience", "Python", "Publication"],
+            link: { href: "https://www.cell.com/neuron/pdf/S0896-6273(26)00004-8.pdf", label: "Read the paper in Neuron" },
+            images: [{ src: "images/mouse_CA1_pyramidal_cell.jpg", alt: "Voltage-indicator imaging of hippocampal neurons" }]
+          },
+          {
+            title: "Electrophysiology Spike Detection & Clustering",
+            org: "GitHub · BME Lab II",
+            date: "May 2025",
+            desc: "Spike detection and clustering pipeline from BME Lab II — recording from a cockroach-leg electrophysiology protocol, then extracting and grouping neural spike events from the signals.",
+            tags: ["MATLAB", "Clustering", "Electrophysiology"],
+            repo: "https://github.com/GiulianaBilbao/electrophysiology-spike-detection-clustering",
+            images: [
+              { src: "images/electrophysiology_spike_detection_cockaroach.webp", alt: "Cockroach-leg electrophysiology spike-detection protocol", fit: "scale-down" }
+            ]
+          },
+          {
+            title: "Optogenetics & Fiber-Photometry Recording",
+            org: "Neural Circuits Lab, NY Psychiatric Institute",
+            date: "Oct 2022 — Present",
+            desc: "Built 5+ rodent behavioral protocols, prepared brain-tissue samples, and made implants for optogenetic and fiber-photometry surgery, capturing real-time neural activity tied to stress and social interaction. This experimental work supported a study I'm acknowledged in (PubMed).",
+            tags: ["Optogenetics", "Fiber photometry", "Surgery"],
+            link: { href: "https://pubmed.ncbi.nlm.nih.gov/42239792/", label: "View study (acknowledged)" },
+            images: [
+              { src: "images/optogenetics.png", alt: "Optogenetics and fiber-photometry setup" },
+              { src: "images/neurons.png", alt: "Neural activity trace" }
+            ]
+          }
+        ]
+      },
+      {
+        id: "intelligence", cls: "intelligence", title: "Intelligence", motif: "❖",
+        theme: "Deep learning, foundation models & clinical AI",
+        metadata: { location: "New Jersey, US", date: "2022 — Present", contact: "linkedin.com/in/giuliana-bilbao" },
+        cover: { src: "images/white_background_colorful_neurons.jpg", alt: "Colorful neurons" },
+        projects: [
+          {
+            title: "Foundational Time-Series Models — Wearable Biosignals",
+            org: "Johnson & Johnson, Digital Health",
+            date: "2025 — Present",
+            desc: "Built foundational time-series models (LSTM, ResNet, Transformers) on wearable biosignal data (PPG, PSG, ACC) for sleep classification and disease prediction in a clinical context. Evaluated 30+ encoder configurations and five architectures, built end-to-end PyTorch pipelines for segmentation and sleep/activity modeling, and ran ablation/robustness studies informing foundation-model architecture decisions. Coordinated a six-person team and presented to senior J&J R&D postdocs.",
+            tags: ["PyTorch", "Transformers", "LSTM", "ResNet", "Foundation models"],
+            images: [
+              { src: "images/colorful_chip.png", alt: "Foundation model training" },
+              { src: "images/chip_schematic.png", alt: "Model architecture" }
+            ]
+          },
+          {
+            title: "Stroke-Risk Prediction from EHR Data",
+            org: "Johnson & Johnson, Cardiovascular Clinical Data Science",
+            date: "2025 — Present",
+            desc: "Defined and built stroke-risk prediction cohorts (given ablation treatment) from EHR data for clinical decision support — fixing ICD-10 lookup gaps in Databricks and running and summarizing 50+ experiments. Positioned for potential publication.",
+            tags: ["EHR", "Databricks", "Clinical ML", "Cohorts"],
+            images: [
+              { src: "images/heart_and_brain.png", alt: "Cardiac stroke-risk modeling" }
+            ]
+          },
+          {
+            title: "LLM Automation of Clinical Study Reports",
+            org: "Johnson & Johnson, Clinical Data Safety",
+            date: "2025 — Present",
+            desc: "Proposed an LLM approach to automate generation of clinical study reports, aligned to an internal clinical-trial data-management roadmap. Connected with the responsible team and joined their standups to tie the work into their roadmap.",
+            tags: ["LLM", "Clinical NLP", "Automation"],
+            images: [
+              { src: "images/writing_experiment.jpg", alt: "Clinical report automation" }
+            ]
+          },
+          {
+            title: "PRISM — Clinical-Trial Knowledge Graph & AI Agents",
+            org: "Johnson & Johnson · Product Designer → Technical Product Owner",
+            date: "2025 — Present",
+            desc: "Started as product designer and now serve as Technical Product Owner of PRISM, leading an 8-person business team across the project's workflows and coordinating a separate 16-person development team to build a unified knowledge graph of clinical-trial management information. Work alongside our users to build the ontologies underpinning the graph and to create AI agents that help clinical-trial managers oversee multiple sites at once. Grew the concept from a hackathon into a funded program — securing VP-level sponsorship within my first year at the company.",
+            tags: ["Knowledge graph", "Ontologies", "AI agents", "Product ownership", "Team lead"],
+            images: [
+              { src: "images/neurons.png", alt: "Knowledge-graph network" }
+            ]
+          },
+          {
+            title: "Real-Time Behavior Prediction Models",
+            org: "Neural Circuits Lab, NY Psychiatric Institute",
+            date: "Oct 2022 — Present",
+            desc: "Developed time-series ML algorithms — SVM, multiple logistic regression, and random forest — to analyze behavioral protocols and predict mouse behavior in real time, averaging 76% accuracy across protocols.",
+            tags: ["SVM", "Random Forest", "Time-series"],
+            images: [
+              { src: "images/VTA_behavior_model.png", alt: "Behavior prediction model" },
+              { src: "images/VTA_behavior_model_pipeline.png", alt: "Behavior model pipeline" },
+              { src: "images/VTA_behavior_SHAP.png", alt: "SHAP feature attribution" }
+            ]
+          },
+          {
+            title: "Patient Logistics & Reorder-Risk Models",
+            org: "Johnson & Johnson, Patient Data Science Intern",
+            date: "May 2024 — Sep 2024",
+            desc: "Built a CatBoost model on patient demographics, shipping, and insurance data to predict shipment delays with up to 78% accuracy, and a random-forest model on claims data to flag patients likely to miss a medication reorder. Presented results to 40+ executives. Earned Scrum PSM I certification.",
+            tags: ["CatBoost", "Random Forest", "Claims data"],
+            images: [
+              { src: "images/retro_phsyiological_systems.jpg", alt: "Patient logistics network" }
+            ]
+          }
+        ]
+      },
+      {
+        id: "robotics", cls: "robotics", title: "Robotics", motif: "⬡",
+        theme: "Robot learning, control & embodied AI",
+        metadata: { location: "New York, NY", date: "2021 — Present", contact: "linkedin.com/in/giuliana-bilbao" },
+        cover: { src: "images/Toothless_robot.png", alt: "Toothless four-legged walking robot" },
+        projects: [
+          {
+            title: "Learned-Dynamics MPC for a Multi-Link Arm",
+            org: "GitHub · MECS6616 Robot Learning · Project 3",
+            date: "Spring 2025",
+            desc: "Physics-based control: trained a neural network forward-dynamics model on rollout data from a simulated multi-link arm, then embedded that learned model inside a Model Predictive Control (MPC) loop to reach goal configurations. Implemented MPC from scratch with ground-truth dynamics first, then replaced it with the learned model and evaluated on 1-, 2-, and 3-link arms.",
+            tags: ["PyTorch", "MPC", "Learned dynamics", "Model-based control"],
+            repo: "https://github.com/GiulianaBilbao/robot-learning-ml-control",
+            images: [{ src: "images/robotic_hand_rock_paper_scissors.jpg", alt: "Learned-dynamics MPC control" }]
+          },
+          {
+            title: "Diffusion Policy & Generative BC (Push-T)",
+            org: "GitHub · MECS6616 Robot Learning · Project 4",
+            date: "Spring 2025",
+            desc: "Implemented three behavioral-cloning agents from scratch for the Push-T manipulation task with receding-horizon control: a residual MLP, a conditional VAE (encoder/decoder, β-weighted KL, reparameterization), and a Diffusion Policy (DDPM) with cosine noise schedule and a full forward/reverse denoising loop.",
+            tags: ["PyTorch", "Diffusion (DDPM)", "CVAE", "Behavioral cloning"],
+            repo: "https://github.com/GiulianaBilbao/robot-learning-ml-control",
+            images: [{ src: "images/robotic_diffusion_policy.png", alt: "Diffusion policy manipulation" }]
+          },
+          {
+            title: "DQN & PPO for Robot-Arm Goal Reaching",
+            org: "GitHub · MECS6616 Robot Learning · Project 5",
+            date: "Spring 2025",
+            desc: "Reinforcement learning on a Gym-compatible arm-reaching environment: a Deep Q-Network built entirely from scratch (Q-network, replay buffer, target-network updates, ε-greedy exploration — no RL libraries), plus PPO via Stable-Baselines3 trained with parallel environments.",
+            tags: ["DQN", "PPO", "Reinforcement Learning", "OpenAI Gym"],
+            repo: "https://github.com/GiulianaBilbao/robot-learning-ml-control",
+            images: [{ src: "images/pandastack.png", alt: "Reinforcement learning for arm control" }]
+          },
+          {
+            title: "Neural-Network Behavioral Cloning (2D Maze)",
+            org: "GitHub · MECS6616 Robot Learning · Project 2",
+            date: "Spring 2025",
+            desc: "Deep-learning behavioral cloning in a 2D maze (PyTorch): an MLP policy on low-dimensional (x,y) observations, a CNN policy on 64×64 RGB images, and a multi-map generalization study training across obstacle maps and testing on unseen configurations.",
+            tags: ["PyTorch", "CNN", "Behavioral cloning"],
+            repo: "https://github.com/GiulianaBilbao/robot-learning-ml-control",
+            images: [{ src: "images/2d_maze_navigation.jpg", alt: "Neural network maze navigation" }]
+          },
+          {
+            title: "Classical ML for Robot Navigation (2D Maze)",
+            org: "GitHub · MECS6616 Robot Learning · Project 1",
+            date: "Spring 2025",
+            desc: "Applied classical scikit-learn methods to a 2D maze: position regression from RGB images (localization), behavioral cloning from ground-truth positions, and end-to-end behavioral cloning from raw RGB images.",
+            tags: ["scikit-learn", "Regression", "NumPy"],
+            repo: "https://github.com/GiulianaBilbao/robot-learning-ml-control",
+            images: [{ src: "images/robot_maze_navigation.png", alt: "Classical ML maze navigation" }]
+          },
+          {
+            title: "VR Rehabilitation Robotics for Cerebral Palsy",
+            org: "Robotic Rehabilitation Lab",
+            date: "Dec 2021 — Sep 2022",
+            desc: "Engineered a C++ kinematic model using ODEs to track and record punch velocity in a virtual 3D game, and modeled a VR bow-and-arrow game in C++/Unity designed for use alongside spinal-cord stimulation to rehabilitate children with cerebral palsy.",
+            tags: ["C++", "Unity", "Kinematics", "VR"],
+            images: [
+              { src: "images/metal_spine.png", alt: "Kinematic model" },
+              { src: "images/robotic_rehabilitation_lab.png", alt: "VR rehabilitation lab" }
+            ]
+          },
+          {
+            title: "Toothless — Four-Legged Walking Robot (Columbia Dragon)",
+            org: "Robotics Studio, Columbia",
+            date: "Spring 2024",
+            desc: "Designed a four-legged walking robot end to end: 10+ concept drawings, full Fusion 360 CAD of the body and a vented case housing the battery, and 20+ 3D-printed parts (legs, chassis, cover, battery holder). Eight daisy-chained motors driven by a Raspberry Pi produce gait; currently refining movement coordination.",
+            tags: ["Fusion 360", "3D printing", "Raspberry Pi", "Robotics"],
+            images: [
+              { src: "images/simulated_toothless_robot.png", alt: "Simulated CAD model of Toothless quadruped" },
+              { src: "images/toothless_3D_printed_robot.png", alt: "3D-printed Toothless robot parts" },
+              { src: "images/Toothless_robot.png", alt: "Assembled Toothless walking robot" }
+            ]
+          },
+          {
+            title: "Robo-cat: Remote cat companion",
+            org: "Robotics project",
+            date: "2024",
+            desc: "A robotic cat that can indentify your pet to engage with it and broadcast video to your phone.",
+            tags: ["Robotics", "Actuation", "Gesture recognition"],
+            images: [{ src: "images/robotic_hand_rock_paper_scissors.jpg", alt: "Robotic hand playing rock paper scissors" }]
+          }
+        ]
+      },
+      {
+        id: "body", cls: "body", title: "Body", motif: "⤢",
+        theme: "Modeling living systems: biomechanics & physiology",
+        metadata: { location: "New York, NY", date: "2021 — 2025", contact: "linkedin.com/in/giuliana-bilbao" },
+        cover: { src: "images/respiratory_system.gif", alt: "Anatomical physiology drawing" },
+        projects: [
+          {
+            title: "Cartilage Wear & Surface Analysis",
+            org: "Musculoskeletal Biomechanics Lab",
+            date: "May 2025",
+            desc: "Collected MATLAB projects from the Musculoskeletal Biomechanics Lab — analysis code supporting cartilage and tissue-mechanics studies. (Confirm scope.)",
+            tags: ["MATLAB", "Biomechanics"],
+            repo: "https://github.com/GiulianaBilbao/MBL_Lab_Projects",
+            images: [{ src: "images/metal_spine.png", alt: "Biomechanics lab analysis" }]
+          },
+          {
+            title: "Renal Physiology Modeling",
+            org: "GitHub · Quantitative Physiology II",
+            date: "2024 — 2025",
+            desc: "MATLAB models of kidney function: glomerular filtration hemodynamics — sweeping efferent-arteriole resistance to derive renal plasma flow, glomerular hydrostatic pressure, and GFR — plus a countercurrent model of solute concentration along the loop of Henle comparing nephron behavior with and without AVP (antidiuretic hormone).",
+            tags: ["MATLAB", "Renal physiology", "GFR", "Modeling"],
+            repo: "https://github.com/GiulianaBilbao/Quantitaive_Physiology_II",
+            images: [
+              { src: "images/physiology_drawing.jpg", alt: "Physiological systems drawing" }
+            ]
+          },
+          {
+            title: "Digital Twin Feasibility Analysis",
+            org: "Johnson & Johnson, Cardiovascular Clinical Data Science",
+            date: "2025",
+            desc: "Delivered a Digital Twin feasibility analysis with cardiovascular engineering and PhD teams — finite-element computer modeling exploring patient-specific physiological simulation for cardiac ablation.",
+            tags: ["Digital Twin", "Finite element", "Simulation"],
+            images: [
+              { src: "images/retro_arteries_and_veins.jpg", alt: "Finite element mesh" }
+            ]
+          },
+          {
+            title: "Human Balance Computational Model",
+            org: "GitHub · Computational Modeling of Physiological Systems",
+            date: "2024",
+            desc: "Computational model of human postural control, implemented as a MATLAB + Simulink simulation (posturalControl.m / posturalControlSim.slx) built up from a simple inverted-pendulum model of standing balance.",
+            tags: ["MATLAB", "Simulink", "Control", "Physiology"],
+            repo: "https://github.com/GiulianaBilbao/human-balance-computational-model",
+            images: [{ src: "images/metal_spine.png", alt: "Human balance model" }]
+          },
+          {
+            title: "Live Multi-Mouse Tracking (U-Net)",
+            org: "Neural Circuits Lab, NY Psychiatric Institute",
+            date: "Oct 2022 — Present",
+            desc: "Designed a custom U-Net to track the position and movement of multiple mice live during experimental trials, enabling real-time locomotion and behavioral readouts.",
+            tags: ["U-Net", "Computer vision", "Pose tracking"],
+            images: []
+          }
+        ]
+      },
+      {
+        id: "product", cls: "product", title: "Product", motif: "▤",
+        theme: "Device design, regulated software & UX research",
+        metadata: { location: "New York / New Jersey", date: "2021 — Present", contact: "giulianabilbao.cargo.site" },
+        cover: { src: "images/retro_style_art_system.jpg", alt: "Triple heart print artwork" },
+        projects: [
+          {
+            title: "StreetSafe — Campus Safety App",
+            org: "Columbia Venture Competition, Team Lead",
+            date: "Fall 2021 — Spring 2022",
+            desc: "Led a team of 5 developers to build StreetSafe, a campus-safety mobile concept. Ran market research with 300+ students across Columbia and seven other urban campuses, designed a 6-page Figma UI and wireframe prototype, and advised Columbia Public Safety on redesigning the LionSafe app. Competed in the Columbia Venture and Perfect Your Pitch competitions.",
+            tags: ["Figma", "UI/UX", "Product", "Team lead"],
+            images: [
+              { src: "images/Street_Safe_app.png", alt: "StreetSafe app UI" }
+            ]
+          },
+          {
+            title: "Modified Oxygen Mask — COVID Response",
+            org: "Columbia Engineering for Humanity",
+            date: "Summer 2020",
+            desc: "COVID medical solution delivering oxygen while carrying contaminants away to a medical vacuum pump, designed for quick setup in pop-up healthcare facilities. Assisted CAD design of the oxygen mask and researched the medical-device field and pricing models.",
+            tags: ["CAD", "Medical device", "Rapid response"],
+            images: []
+          },
+          {
+            title: "PRISM — Product Design & UX Research",
+            org: "Johnson & Johnson · Product Designer (now Technical Product Owner)",
+            date: "2025 — Present",
+            desc: "Shaped PRISM as product designer before stepping into the Technical Product Owner role (see Intelligence). Led the user research grounding the product: interviewed clinical-trial managers, built personas, journey maps, and pain-point analysis, then drove POC interface collaboration with an external development partner.",
+            tags: ["User research", "Personas", "Journey mapping", "Figma"],
+            images: [
+              { src: "images/retro_style_art_system.jpg", alt: "PRISM journey map" }
+            ]
+          },
+          {
+            title: "UI/UX Research for Agentic AI R&D",
+            org: "Johnson & Johnson, Product & Design",
+            date: "2025 — Present",
+            desc: "Onboarded to assist UI/UX research for an agentic-AI R&D initiative, mapping UI/UX and product-design-engineering opportunities for designing and shipping agentic AI applications for innovative-medicine R&D.",
+            tags: ["UI/UX", "Product design", "Agentic AI"],
+            images: [
+              { src: "images/colorful_chip.png", alt: "Agentic AI interface design" }
+            ]
+          },
+          {
+            title: "IM R&D Lab Persona & Journey Mapping",
+            org: "Johnson & Johnson, R&D Lab Operations (Grow Gig)",
+            date: "2025",
+            desc: "Launched a cross-functional effort with R&D Lab Operations to understand the people, processes, and systems driving lab operations. Gathered therapeutic-area experiment phases, instruments, and data workflows; documented lab personas, end-to-end journeys, pain points, and future-state concepts feeding a technology roadmap.",
+            tags: ["Personas", "Workflow mapping", "Roadmap"],
+            images: [
+              { src: "images/retro_phsyiological_systems.jpg", alt: "Lab workflow mapping" }
+            ]
+          },
+          {
+            title: "Neural Spike Labeling & Correction GUI",
+            org: "Losonczy Lab, Zuckerman Institute",
+            date: "Aug 2024 — Present",
+            desc: "Built a Python (Dashly) desktop GUI to visualize and correct computationally marked bursts and single spikes across multiple ROIs in neural recordings, generating ground-truth sets for ML/DL event detection. Automated analysis pipelines with Pandas across 100+ datasets and produced Matplotlib visualizations to streamline lab workflows.",
+            tags: ["Python", "Dashly", "Pandas", "GUI"],
+            repo: "https://github.com/GiulianaBilbao/neural-spike-labeling-gui",
+            images: [
+              { src: "images/neuron_spike_labeling_GUI.png", alt: "Spike labeling GUI" },
+              { src: "images/neurons.png", alt: "Neuron dendrite recording" }
+            ]
+          }
+        ]
+      },
+      {
+        id: "sensors", cls: "sensors", title: "Sensors", motif: "◈",
+        theme: "Hardware: sensing, instrumentation & devices",
+        metadata: { location: "New York / New Jersey", date: "2020 — Present", contact: "giulianabilbao.cargo.site" },
+        cover: { src: "images/temperature_sensor.jpg", alt: "Sensor hardware" },
+        projects: [
+          {
+            title: "EKG Sensor — Built & Characterized",
+            org: "Columbia BME Instrumentation Lab",
+            date: "2023",
+            desc: "Built an electrocardiogram (EKG) front-end from scratch: an instrumentation-amplifier stage to capture the cardiac signal, active filtering to reject noise and drift, and gain staging for a clean output. Characterized the circuit's frequency response, gain, and noise, and validated it against live EKG recordings. (Confirm specifics — placeholder write-up.)",
+            tags: ["Analog circuits", "Instrumentation amp", "Filtering", "EKG"],
+            images: [
+              { src: "images/ECG_circuit.webp", alt: "EKG front-end circuit" },
+              { src: "images/ekg_breadboard.webp", alt: "EKG breadboard build" },
+              { src: "images/EKG_placement_image.avif", alt: "EKG electrode placement" }
+            ]
+          },
+          {
+            title: "Dilate — Adaptive Breast-Pump Attachment",
+            org: "Columbia Senior Design, Tech Lead",
+            date: "Jun 2023 — May 2024",
+            desc: "Adaptive breast-pump attachment developed from concept to prototype after consulting four women's-health hospitals, doctors, mothers, and lactation consultants. Designed 10+ CAD iterations and 3D-printed resin pumps plus 18 silicone flange inserts, and built 3D silicone breast phantoms with duct representations in five sizes for fit testing. Engineered cyclical-heating circuitry (shown to raise milk letdown ~42%) and pressure-sensing Arduino control: the flange first contracts to the nipple, then expands to 4 cm beyond nipple size — experimentally optimal for minimizing complications. Presented at the Columbia Senior Design Expo and NEBEC; pursuing a patent with Columbia Technology Ventures.",
+            tags: ["SolidWorks", "Arduino", "3D printing", "Sensors", "CAD"],
+            images: [
+              { src: "images/Dilate_poster.png", alt: "Dilate project poster" }
+            ]
+          },
+          {
+            title: "Thermistor Temperature Controller (Dilate)",
+            org: "GitHub · Dilate temperature-feedback subsystem",
+            date: "2023 — 2024",
+            desc: "The temperature-sensing feedback mechanism behind the Dilate breast-pump attachment: C++ firmware for the heating circuit and supply, thermistor-based closed-loop sensing, and relay control for safety shutdowns (CodeForHeatCircuit, CodeForHeatSupply, ThermistorCode, relay testing).",
+            tags: ["C++", "Embedded", "Thermistor", "Relays"],
+            repo: "https://github.com/GiulianaBilbao/thermistor-temperature-controller",
+            images: [
+              { src: "images/temperature-sensors.webp", alt: "Thermistor temperature sensor" },
+              { src: "images/temperature_sensor.jpg", alt: "Temperature sensing hardware" }
+            ]
+          }
+        ]
+      },
+      {
+        id: "research", cls: "research", title: "Research", motif: "✧",
+        theme: "Research proposals & scientific writing",
+        metadata: { location: "Columbia University", date: "2022 — 2024", contact: "linkedin.com/in/giuliana-bilbao" },
+        cover: { src: "images/ventral_tagmental_area_vta.png", alt: "Ventral tegmental area (VTA) illustration" },
+        projects: [
+          {
+            title: "Deep Learning for VTA Dopamine Reinforcement Signals",
+            org: "Research Proposal",
+            date: "Spring 2024",
+            desc: "Proposal: deep-learning models for decoding and enhancing social reinforcement-learning signals via VTA dopamine neurons.",
+            tags: ["Deep learning", "Dopamine", "Reinforcement learning"],
+            images: [{ src: "images/ventral_tagmental_area_vta.png", alt: "VTA dopamine circuit" }]
+          },
+          {
+            title: "VTA GABA and Maladaptive Behavior (LTP/LTD)",
+            org: "Research Proposal",
+            date: "Spring 2024",
+            desc: "Proposal: understanding stress modulation of maladaptive behaviors through long-term potentiation and depression of VTA GABA neurons.",
+            tags: ["Neuroscience", "Synaptic plasticity", "Stress"],
+            images: [{ src: "images/ventral_tagmental_area_vta.png", alt: "VTA GABA plasticity" }]
+          },
+          {
+            title: "Adaptive Behavioral Strategies through Competition",
+            org: "Research Proposal · Fulbright Switzerland Finalist",
+            date: "Fall 2024",
+            desc: "Research proposal on learning adaptive behavioral strategies through competition, written for the Fulbright U.S. Student Program to Switzerland — advanced to the final selection round as a finalist.",
+            tags: ["Behavior", "Fulbright finalist"],
+            images: [{ src: "images/VTA_poster_Amgen.png", alt: "AMGEN VTA research poster" }]
+          },
+          {
+            title: "Social Buffering of Stress on Reward Processing",
+            org: "Research Proposal",
+            date: "Summer 2023",
+            desc: "Proposal: modeling social buffering of stress effects on reward processing in mice.",
+            tags: ["Stress", "Reward", "Modeling"],
+            images: [{ src: "images/neurons.png", alt: "Social buffering model" }]
+          },
+          {
+            title: "Social Rejection in ADHD & Neuroinflammation",
+            org: "Research Proposal",
+            date: "Spring 2023",
+            desc: "Proposal exploring social rejection in ADHD and associated neuroinflammatory responses.",
+            tags: ["ADHD", "Neuroinflammation"],
+            images: [{ src: "images/neurons.png", alt: "Neuroinflammation study" }]
+          },
+          {
+            title: "Postnatal Care & Dopaminergic Critical Period",
+            org: "Research Proposal",
+            date: "Fall 2023",
+            desc: "Proposal: establishing postnatal care as a stimulus for a dopaminergic-regulation critical period.",
+            tags: ["Development", "Dopamine", "Critical period"],
+            images: [{ src: "images/white_background_colorful_neurons.jpg", alt: "Dopaminergic development" }]
+          },
+          {
+            title: "dmPFC-Amygdala Oscillations & Memory in Depression",
+            org: "Research Proposal",
+            date: "Spring 2022",
+            desc: "Proposal: reducing dmPFC-amygdala oscillation power to discern episodic-memory encoding relevant to depression.",
+            tags: ["Oscillations", "Memory", "Depression"],
+            images: [{ src: "images/neurons.png", alt: "dmPFC-amygdala circuit" }]
+          }
+        ]
+      },
+      {
+        id: "conferences", cls: "conferences", title: "Conferences", motif: "◇",
+        theme: "Presentations, posters & talks",
+        metadata: { location: "Various", date: "2020 — 2024", contact: "linkedin.com/in/giuliana-bilbao" },
+        cover: { src: "images/writing_experiment.jpg", alt: "Conference and presentation imagery" },
+        projects: [
+          {
+            title: "Patient Data Science — Medication-Adherence Pipeline",
+            org: "Johnson & Johnson",
+            date: "Summer 2024",
+            desc: "Presented a patient-adherence predictive pipeline for a marketed therapy at Johnson & Johnson Patient Data Science.",
+            tags: ["Presentation", "Predictive modeling"],
+            images: [{ src: "images/genes_to_cells.png", alt: "Adherence pipeline" }]
+          },
+          {
+            title: "NY Psychiatric Institute — Predicting Social Buffering",
+            org: "Lab Meeting",
+            date: "Summer 2024",
+            desc: "Presented 'Predicting Social Buffering of Stress' at a New York Psychiatric Institute lab meeting.",
+            tags: ["Talk", "Neuroscience"],
+            images: [{ src: "images/neurons.png", alt: "Lab meeting talk" }]
+          },
+          {
+            title: "Senior Design Expo & NEBEC — Medical Breast Pump",
+            org: "Columbia Engineering · NEBEC",
+            date: "Spring 2024",
+            desc: "Presented the Dilate medical breast-pump at the Columbia Engineering Senior Design Expo and the Northeast Biomedical Engineering Conference (NEBEC).",
+            tags: ["Poster", "Medical device"],
+            images: [{ src: "images/Dilate_poster.png", alt: "Dilate conference poster" }]
+          },
+          {
+            title: "AMGEN Scholars Symposium — VTA Stress & Depression Signaling",
+            org: "AMGEN Scholars Program · Columbia",
+            date: "Summer 2024",
+            desc: "Selected for the AMGEN Scholars Program — a competitive, fully funded national summer research program — to study ventral tegmental area (VTA) signaling in stress-induced depression. Presented the summer's findings at the AMGEN Scholars Symposium.",
+            tags: ["AMGEN Scholar", "VTA", "Neuroscience", "Poster"],
+            images: [{ src: "images/VTA_poster_Amgen.png", alt: "AMGEN Scholars VTA poster" }]
+          },
+          {
+            title: "Columbia Undergraduate Research Conference",
+            org: "Columbia University",
+            date: "Fall 2024",
+            desc: "Presented a poster at the Columbia Undergraduate Research Conference.",
+            tags: ["Poster", "Research"],
+            images: [{ src: "images/writing_experiment.jpg", alt: "Undergraduate research poster" }]
+          },
+          {
+            title: "NeuroTechX Columbia — Face vs. Car Differentiation",
+            org: "NeuroTechX Columbia",
+            date: "Fall 2023",
+            desc: "Presented the EEG face-vs-car differentiation project at NeuroTechX Columbia.",
+            tags: ["Talk", "EEG", "BCI"],
+            images: [{ src: "images/face_vs_car_eeg.webp", alt: "Face vs. car EEG result" }]
+          },
+          {
+            title: "Engineering for Humanity — Modified Oxygen Mask",
+            org: "Columbia Engineering for Humanity",
+            date: "Summer 2020",
+            desc: "Presented the modified oxygen-mask COVID solution at Columbia Engineering for Humanity.",
+            tags: ["Presentation", "Medical device"],
+            images: [{ src: "images/chip_schematic.png", alt: "Oxygen mask presentation" }]
+          }
+        ]
+      },
+      {
+        id: "outreach", cls: "outreach", title: "Outreach", motif: "❉",
+        theme: "Teaching, volunteering & community leadership",
+        metadata: { location: "Columbia · Johnson & Johnson", date: "2020 — Present", contact: "linkedin.com/in/giuliana-bilbao" },
+        cover: { src: "images/Shpe_image_1.jpeg", alt: "Teaching and outreach" },
+        projects: [
+          {
+            title: "TLDP Development Pillar — Head",
+            org: "Johnson & Johnson",
+            date: "2025 — Present",
+            desc: "Head of the TLDP Development Pillar: organize alumni office hours to connect current members with alumni, and run a career-planning speaker series with senior industry leaders.",
+            tags: ["Leadership", "Mentorship", "Program building"],
+            images: [{ src: "images/retro_phsyiological_systems.jpg", alt: "Development pillar program" }]
+          },
+          {
+            title: "JnJ AI Tech Talks — Co-president",
+            org: "Johnson & Johnson",
+            date: "2025",
+            desc: "Organized three Copilot educational sessions, presenting to 200+ people with interactive demos, and secured sponsorship conversations to sustain the series.",
+            tags: ["Public speaking", "AI enablement", "Demos"],
+            images: [{ src: "images/tech_talks_image.jpeg", alt: "AI tech talk" }]
+          },
+          {
+            title: "WiSTEM2D Columbia Lead & MedTech Mentorship",
+            org: "Johnson & Johnson · Columbia",
+            date: "2024 — Present",
+            desc: "WiSTEM2D Columbia Lead — speak on panels about the TLDP and application advice and volunteer at Columbia STEM outreach events. As a MedTech mentorship lead, ran intern onboarding, workshops, and welcome events, and planned internal culture and go-to-market events.",
+            tags: ["WiSTEM2D", "Mentorship", "Volunteering"],
+            images: [{ src: "images/writing_experiment.jpg", alt: "WiSTEM2D and MedTech Spark" }]
+          },
+          {
+            title: "SHPE — Society of Hispanic Professional Engineers",
+            org: "Johnson & Johnson",
+            date: "2024 — Present",
+            desc: "Active in SHPE, supporting Hispanic engineering community and professional-development events.",
+            tags: ["Community", "Volunteering"],
+            images: [
+              { src: "images/shpe_image_2.jpeg", alt: "SHPE community event" },
+              { src: "images/shpe_image_3.jpeg", alt: "SHPE members" }
+            ]
+          },
+          {
+            title: "Biomedical Engineering Lab I & II — Teaching Assistant",
+            org: "Columbia University",
+            date: "2023 — 2024",
+            desc: "TA for BME Lab I & II: biomechanics labs (gait analysis, biomechanical testing, motion capture), biomaterials labs (cell culture, biomaterials, drug delivery), and bioinstrumentation labs (load cells, ECG circuitry, audio sampling, Arduino).",
+            tags: ["Teaching", "Biomechanics", "Bioinstrumentation"],
+            images: [{ src: "images/ekg_breadboard.webp", alt: "Bioinstrumentation teaching lab" }]
+          },
+          {
+            title: "Columbia NeuroTechX — Co-President & Treasurer",
+            org: "Columbia NeuroTechX",
+            date: "2022 — 2024",
+            desc: "Secured $2,500 for a 16-channel EEG headset and equipment, led an EEG-driven drone project with 30 students doing Python signal processing for navigation, and built GitHub, signal-processing, and ML onboarding modules for new members.",
+            tags: ["Leadership", "EEG", "Mentorship"],
+            images: [{ src: "images/Neuro_tech_flyer.png", alt: "NeuroTechX event flyer" }]
+          },
+          {
+            title: "Columbia Neuroscience Society - Head of Undergraduate Research Fair & Treasurer",
+            org: "Columbia University",
+            date: "2021 — 2023",
+            desc: "Broadened access to research through three roles: as EpiSTEMic Co-Chair, designed and taught a two-month summer neuroscience course reaching 170+ students from underfunded high schools (with BRAINYAC and college-counseling partners); as Head of the Undergraduate Research Opportunities Fair, contacted 80+ STEM labs and ran a virtual fair connecting 150+ students to PIs from 20 Columbia labs; and as Columbia Neuroscience Society Treasurer, coordinated 10+ research panels (Columbia Medical, Harvard Medical, Zuckerman) and managed club funding and partnerships.",
+            tags: ["Outreach", "Teaching", "Events", "Access"],
+            images: [
+              { src: "images/genes_to_cells.png", alt: "EpiSTEMic course" }
+            ]
+          },
+          {
+            title: "Health Hackathon — 2nd Place, Global Innovation Challenge",
+            org: "Johnson & Johnson",
+            date: "2025",
+            desc: "2nd place in a global innovation health hackathon; presented to senior leadership and kicked off an internal innovation follow-on. Built a 30+ person network across robotics, product development, and data science.",
+            tags: ["Recognition", "Innovation", "Networking"],
+            images: [
+              { src: "images/innovative_medicine_hackathon_team.png", alt: "Hackathon team" }
+            ]
+          },
+          {
+            title: "Continuous Learning & Growth",
+            org: "Professional development",
+            date: "2024 — Present",
+            desc: "Completed AWS SageMaker and Data Engineering training, attended NVIDIA GTC 2025 and Amplify, and continues advancing Figma and user-research skills — deliberately building breadth across AI, product, and design.",
+            tags: ["AWS SageMaker", "NVIDIA GTC", "Figma"],
+            images: [
+              { src: "images/white_background_colorful_neurons.jpg", alt: "Continuous learning" }
+            ]
+          }
+        ]
+      }
+    ];
+
+    // ---------------- Render the coffee table ----------------
+    const tableEl = document.getElementById("coffeeTable");
+    SECTORS.forEach((s, i) => {
+      const btn = document.createElement("button");
+      btn.className = "book " + s.cls;
+      btn.setAttribute("role", "listitem");
+      btn.setAttribute("aria-label", s.title + " — " + s.theme);
+      btn.dataset.index = i;
+      btn.innerHTML =
+        '<span class="kicker">Vol. ' + (i + 1) + '</span>' +
+        '<span class="motif" aria-hidden="true">' + s.motif + '</span>' +
+        '<span class="title">' + s.title + '</span>' +
+        '<span class="theme">' + s.theme + '</span>';
+      btn.addEventListener("click", () => openBook(i));
+      tableEl.appendChild(btn);
+    });
+
+    // ---------------- Portfolio state + rendering ----------------
+    const overlay = document.getElementById("overlay");
+    const portfolioEl = document.getElementById("portfolio");
+    let current = { sector: null, page: 0, origin: null };
+    let flipping = false; // transition lock: ignore re-entrant flips
+    const FLIP_MS = 600;  // keep in sync with --flip-dur (spec Req 9.1 cap)
+    const prefersReducedMotion =
+      window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Page model: page 0 is always the index (contents). Pages 1..N are projects.
+    function pageCount() { return current.sector.projects.length + 1; }
+    function isIndexPage(i) { return i === 0; }
+    function projectFor(pageIndex) { return current.sector.projects[pageIndex - 1]; }
+
+    // ---- Option A: intrinsic-ratio fit table ----
+    // Baked-in width/height ratios (from the actual image files). Fit is chosen
+    // at RENDER time, so it's set before first paint — no resize on page turns.
+    // Regenerate with sips if you add images; unknown files default to contain.
+    const IMG_RATIO = {
+      "Dilate_poster.png": 1.328,
+      "Neuro_tech_flyer.png": 0.750,
+      "Street_Safe_app.png": 1.775,
+      "Toothless_robot.png": 1.186,
+      "VTA_behavior_SHAP.png": 1.564,
+      "VTA_behavior_model.png": 1.100,
+      "VTA_behavior_model_pipeline.png": 1.785,
+      "VTA_poster_Amgen.png": 1.238,
+      "chip_schematic.png": 0.778,
+      "colorful_chip.png": 1.575,
+      "genes_to_cells.png": 0.771,
+      "heart_and_brain.png": 0.556,
+      "innovative_medicine_hackathon_team.png": 1.596,
+      "metal_spine.png": 0.796,
+      "muscoloskeletal_bimechanics_lab.png": 1.027,
+      "neuron_spike_labeling_GUI.png": 1.592,
+      "neurons.png": 0.723,
+      "neurons_spanish.png": 0.807,
+      "optic_laser_for_optogenetics.png": 1.852,
+      "optogenetics.png": 1.429,
+      "pandastack.png": 1.500,
+      "robot_maze_navigation.png": 1.757,
+      "robotic_diffusion_policy.png": 3.122,
+      "robotic_rehabilitation_lab.png": 1.720,
+      "simulated_toothless_robot.png": 0.872,
+      "toothless_3D_printed_robot.png": 0.944,
+      "transformer_for_eeg.png": 2.629,
+      "ventral_tagmental_area_vta.png": 1.180,
+      "2d_maze_navigation.jpg": 1.168,
+      "colorful_DNA.jpg": 0.571,
+      "headshot.jpg": 0.677,
+      "human_vs_electrical_bodies_art.jpg": 1.103,
+      "knee_joint_image.jpg": 1.283,
+      "lab_mouse.jpg": 0.750,
+      "mouse_CA1_pyramidal_cell.jpg": 1.006,
+      "mouse_experiment.jpg": 0.667,
+      "physiology_drawing.jpg": 0.596,
+      "retro_arteries_and_veins.jpg": 0.613,
+      "retro_phsyiological_systems.jpg": 1.058,
+      "retro_style_art_system.jpg": 0.622,
+      "robotic_hand_rock_paper_scissors.jpg": 0.710,
+      "temperature_sensor.jpg": 0.918,
+      "triple_heart_print_pink.jpg": 0.769,
+      "white_background_colorful_neurons.jpg": 1.157,
+      "writing_experiment.jpg": 0.774,
+      "Shpe_image_1.jpeg": 1.333,
+      "shpe_image_2.jpeg": 1.333,
+      "shpe_image_3.jpeg": 1.333,
+      "tech_talks_image.jpeg": 1.333,
+      "CA1_pyramidal_cell.webp": 0.921,
+      "ECG_circuit.webp": 1.335,
+      "ekg_breadboard.webp": 1.648,
+      "electrophysiology_spike_detection_cockaroach.webp": 0.929,
+      "face_vs_car_eeg.webp": 1.028,
+      "temperature-sensors.webp": 1.635,
+      "EKG_placement_image.avif": 1.778,
+      "respiratory_system.gif": 1.333
+    };
+
+    function fitFor(src) {
+      const file = (src || "").split("/").pop();
+      const r = IMG_RATIO[file];
+      if (!r) return "contain";                 // unknown: never crop
+      return (r > 1.35 * (4/3) || r < (4/3) / 1.35) ? "contain" : "cover";
+    }
+
+    // Render an image plate. Fit is chosen up front from the ratio table.
+    function imagePlate(img) {
+      if (img && img.src) {
+        const fit = img.fit || fitFor(img.src);   // explicit fit wins
+        const fitClass = fit === "contain" ? " fit-contain" : " fit-cover";
+        return '<div class="proj-image' + fitClass + '">' +
+          '<img src="' + img.src + '" alt="' + (img.alt || '') + '" ' +
+            'onerror="this.style.display=\'none\'">' +
+        '</div>';
+      }
+      // Fallback: plain label swatch.
+      return '<div class="proj-image">' + (img || '') + '</div>';
+    }
+
+    // ---- Left-page HTML for any page index ----
+    function leftPageHTML(pageIndex) {
+      const sector = current.sector;
+      if (isIndexPage(pageIndex)) {
+        // Index cover: book identity + intro.
+        const meta = sector.metadata;
+        const contactRow = meta.contact
+          ? '<div><div class="label">Contact</div><a href="https://' + meta.contact + '" target="_blank" rel="noopener">' + meta.contact + '</a></div>'
+          : '';
+        return '' +
+          '<div class="eyebrow"><span>' + sector.title + '</span><span>Index</span></div>' +
+          '<h2 class="index-title">' + sector.title + '</h2>' +
+          '<p class="index-sub">' + sector.theme + '</p>' +
+          imagePlate(sector.cover || 'Cover plate') +
+          '<div class="metadata">' +
+            '<div><div class="label">Location</div>' + meta.location + '</div>' +
+            '<div><div class="label">Date</div>' + meta.date + '</div>' +
+            contactRow +
+          '</div>';
+      }
+      const p = projectFor(pageIndex);
+      const tags = (p.tags || []).map(t => '<span>' + t + '</span>').join('');
+      const repoLink = p.repo
+        ? '<a class="repo-link" href="' + p.repo + '" target="_blank" rel="noopener">' +
+            '<span aria-hidden="true">↗</span> View repository</a>'
+        : '';
+      // Publication / external link (e.g. a paper). Rendered as an accent pill.
+      const pubLink = p.link
+        ? '<a class="pub-link" href="' + p.link.href + '" target="_blank" rel="noopener">' +
+            '<span aria-hidden="true">▸</span> ' + p.link.label + '</a>'
+        : '';
+      const links = (pubLink || repoLink)
+        ? '<div class="proj-links">' + pubLink + repoLink + '</div>'
+        : '';
+      return '' +
+        '<div class="eyebrow"><span>' + sector.title + '</span><span>' + pageIndex + ' / ' + (pageCount() - 1) + '</span></div>' +
+        '<h2 class="proj-title">' + p.title + '</h2>' +
+        '<p class="proj-meta"><span class="org">' + p.org + '</span><br>' + p.date + '</p>' +
+        '<p class="proj-desc">' + p.desc + '</p>' +
+        (tags ? '<div class="tags">' + tags + '</div>' : '') +
+        links;
+    }
+
+    // ---- Right-page HTML for any page index (also used for sheet faces) ----
+    function rightPageHTML(pageIndex) {
+      const sector = current.sector;
+      if (isIndexPage(pageIndex)) {
+        // Contents list: every project title with its page number.
+        const items = sector.projects.map((p, i) =>
+          '<li data-page="' + (i + 1) + '" tabindex="0" role="button" aria-label="Go to ' + p.title + '">' +
+            '<span class="toc-title">' + p.title +
+              (p.link ? ' <span class="toc-pub" title="Linked publication">★</span>' : '') +
+              (p.repo ? ' <span class="toc-code" title="Has GitHub repository">‹/›</span>' : '') +
+              '<span class="toc-org">' + p.org + '</span>' +
+            '</span>' +
+            '<span class="toc-page">p. ' + (i + 1) + '</span>' +
+          '</li>'
+        ).join('');
+        return '' +
+          '<div class="eyebrow"><span>Contents</span><span>' + sector.projects.length + ' entries</span></div>' +
+          '<ul class="contents">' + items + '</ul>';
+      }
+      const p = projectFor(pageIndex);
+      const imgs = p.images || [];
+      const n = imgs.length;
+      // No image yet: show a clear placeholder so it's obvious one is needed.
+      if (n === 0) {
+        return '' +
+          '<div class="eyebrow"><span>Selected work</span><span>' + pageIndex + ' / ' + (pageCount() - 1) + '</span></div>' +
+          '<div class="gallery solo"><div class="proj-image image-todo">Image coming soon</div></div>';
+      }
+      // Editorial gallery layouts scale with image count for big, appealing visuals.
+      const layout = n >= 3 ? "trio" : (n === 2 ? "duo" : "solo");
+      const gallery =
+        '<div class="gallery ' + layout + '">' + imgs.map(imagePlate).join('') + '</div>';
+      return '' +
+        '<div class="eyebrow"><span>Selected work</span><span>' + pageIndex + ' / ' + (pageCount() - 1) + '</span></div>' +
+        gallery;
+    }
+
+    // ================================================================
+    //  StPageFlip-driven portfolio (this build only)
+    //  We flatten the left/right spread model into a flat list of single
+    //  pages and hand them to StPageFlip, which pairs them into spreads and
+    //  animates a physically realistic page turn (with drag + shadows).
+    // ================================================================
+    let pageFlip = null;  // active StPageFlip instance
+    const bookEl = () => document.getElementById("book");
+
+    // ---- Cover HTML: reuse the EXACT coffee-table book tile ----
+    // Emits the same `.book <cls>` markup used on the shelf (kicker/motif/
+    // title/theme) so the cover is identical to the tile you clicked. The
+    // `.book-on-cover` modifier makes it fill the hard board (no aspect-ratio,
+    // no hover lift). `variant` is "front" or "back".
+    function coverHTML(sector, variant, indexInList) {
+      const backCls = variant === "back" ? " is-back" : "";
+      return '<div class="book book-on-cover ' + sector.cls + backCls + '">' +
+               '<span class="kicker">Vol. ' + (indexInList + 1) + '</span>' +
+               '<span class="motif" aria-hidden="true">' + sector.motif + '</span>' +
+               '<span class="title">' + sector.title + '</span>' +
+               '<span class="theme">' + sector.theme + '</span>' +
+             '</div>';
+    }
+
+    // Build the flat page list for a sector. Now bookended by hard covers so the
+    // book literally opens from its colored cover and closes back onto it:
+    //   [ FRONT COVER (hard) ]
+    //   [ index-left, index-right(contents) ]
+    //   [ projK-left(text), projK-right(gallery) ] ...
+    //   [ BACK COVER (hard) ]
+    // Returns objects: { html, side, kind }  kind ∈ cover-front|cover-back|paper
+    function buildPages(sector, sectorIndex) {
+      const pages = [];
+      const savedSector = current.sector;
+      current.sector = sector; // leftPageHTML/rightPageHTML read current.sector
+
+      // Front hardcover.
+      pages.push({ html: coverHTML(sector, "front", sectorIndex), side: "left", kind: "cover-front" });
+
+      const n = sector.projects.length + 1; // +1 for the index page
+      for (let i = 0; i < n; i++) {
+        pages.push({ html: leftPageHTML(i), side: "left", kind: "paper" });
+        pages.push({ html: rightPageHTML(i), side: "right", kind: "paper" });
+      }
+
+      // Back hardcover — the final single page (portrait mode: no spread
+      // padding needed, every page stands alone).
+      pages.push({ html: coverHTML(sector, "back", sectorIndex), side: "right", kind: "cover-back" });
+
+      current.sector = savedSector;
+      return pages;
+    }
+
+    function updateIndicator() {
+      const ind = document.getElementById("pfIndicator");
+      if (!ind || !pageFlip) return;
+      const idx = pageFlip.getCurrentPageIndex();
+      const total = pageFlip.getPageCount();
+      if (idx === 0) { ind.textContent = "Cover"; return; }
+      if (idx >= total - 1) { ind.textContent = "Back cover"; return; }
+      if (idx === 1 || idx === 2) { ind.textContent = "Index"; return; }
+      // Interior pages are single in portrait mode; report page N of the body.
+      ind.textContent = "Page " + (idx - 1) + " of " + (total - 2);
+    }
+
+    function openBook(index) {
+      current.sector = SECTORS[index];
+      current.origin = tableEl.children[index];
+
+      // Chrome scaffold: a mount for the book + return control + nav bar.
+      portfolioEl.className = "portfolio pf-host";
+      portfolioEl.innerHTML =
+        '<button class="return" id="returnBtn" aria-label="Close and return to table">✕</button>' +
+        '<div id="book" aria-label="Portfolio pages"></div>' +
+        '<div class="chrome">' +
+          '<span class="page-indicator" id="pfIndicator">Index</span>' +
+          '<div class="nav-group">' +
+            '<button class="btn" id="prevBtn">← Prev</button>' +
+            '<button class="btn" id="nextBtn">Next →</button>' +
+          '</div>' +
+        '</div>';
+
+      overlay.classList.add("open");
+
+      const pages = buildPages(current.sector, index);
+
+      // Size for a SINGLE centered page (portrait mode): the cover reads as a
+      // real closed book that opens, one page at a time — no empty facing half.
+      const host = portfolioEl.getBoundingClientRect();
+      const availH = host.height - 72;                 // leave room for chrome
+      const availW = host.width - 24;
+      // 3:4 portrait page, bounded by the overlay.
+      let pageH = Math.min(660, Math.floor(availH));
+      let pageW = Math.floor(pageH * 0.75);
+      if (pageW > availW) { pageW = Math.floor(availW); pageH = Math.floor(pageW / 0.75); }
+
+      // Reduced motion OR library unavailable (offline/CDN down): skip the
+      // physics engine and show a simple scroll of pages so the demo never
+      // dead-ends on a blank overlay.
+      const libReady = typeof St !== "undefined" && St && St.PageFlip;
+      if (prefersReducedMotion || !libReady) {
+        renderStaticFallback(pages);
+        document.getElementById("returnBtn").addEventListener("click", closeBook);
+        if (!libReady && !prefersReducedMotion) {
+          console.warn("StPageFlip not loaded (offline?); using static fallback.");
+        }
+        return;
+      }
+
+      pageFlip = new St.PageFlip(bookEl(), {
+        width: pageW,
+        height: pageH,
+        size: "fixed",           // fixed single-page footprint keeps it centered
+        maxShadowOpacity: 0.5,
+        showCover: true,
+        mobileScrollSupport: true,
+        flippingTime: FLIP_MS,   // honor the 600ms spec cap
+        usePortrait: true        // one page at a time = closed-book cover opens
+      });
+
+      // Materialize pages as DOM nodes inside #book, then let the library adopt
+      // them. Appending first matches the documented loadFromHtml pattern.
+      bookEl().innerHTML = pages.map((p) => {
+        const isCover = p.kind === "cover-front" || p.kind === "cover-back";
+        // Hard density = stiff board that swings like a hardcover.
+        const density = isCover ? ' data-density="hard"' : "";
+        const cls = "pf-page" +
+          (isCover ? " pf-cover" : "") +
+          (p.kind === "blank" ? " pf-blank" : "");
+        // Covers render their own full-bleed board; paper pages keep the .page frame.
+        const inner = isCover
+          ? p.html
+          : '<section class="page ' + p.side + '">' + p.html + '</section>';
+        return '<div class="' + cls + '"' + density + '>' + inner + '</div>';
+      }).join("");
+      const nodes = bookEl().querySelectorAll(".pf-page");
+
+      pageFlip.on("flip", updateIndicator);
+      pageFlip.on("changeState", (e) => { flipping = e.data === "flipping"; });
+      pageFlip.loadFromHTML(nodes);
+
+      // Wire contents-list clicks to jump to the right spread.
+      wireContentsJump();
+      updateIndicator();
+
+      document.getElementById("returnBtn").addEventListener("click", closeBook);
+      document.getElementById("prevBtn").addEventListener("click", () => flip(-1));
+      document.getElementById("nextBtn").addEventListener("click", () => flip(1));
+
+      const rb = document.getElementById("returnBtn");
+      if (rb) rb.focus();
+    }
+
+    // Contents entries jump to a spread. Delegated on #book so it survives
+    // StPageFlip cloning page nodes (portrait mode clones elements).
+    function wireContentsJump() {
+      const book = bookEl();
+      if (!book) return;
+      const jump = (li) => {
+        if (!pageFlip || !li) return;
+        const projPage = parseInt(li.dataset.page, 10); // 1-based project index
+        if (!projPage) return;
+        // Layout: [0]=front cover, [1]=index-left, [2]=contents,
+        // then project k occupies left page = 1 + k*2.
+        pageFlip.flip(1 + projPage * 2, "top");
+      };
+      book.addEventListener("click", (e) => {
+        const li = e.target.closest(".contents li");
+        if (li) jump(li);
+      });
+      book.addEventListener("keydown", (e) => {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        const li = e.target.closest(".contents li");
+        if (li) { e.preventDefault(); jump(li); }
+      });
+    }
+
+    // Non-animated fallback: a plain vertical scroll of all pages.
+    function renderStaticFallback(pages) {
+      const html = pages.map((p) => {
+        const isCover = p.kind === "cover-front" || p.kind === "cover-back";
+        if (p.kind === "blank") return "";
+        const inner = isCover
+          ? p.html
+          : '<section class="page ' + p.side + '">' + p.html + '</section>';
+        const coverCls = isCover ? " pf-cover" : "";
+        // covers need a fixed height in scroll mode (no board to fill)
+        const style = "position:relative;margin:0 auto 12px;max-width:560px;" +
+          (isCover ? "height:420px;" : "");
+        return '<div class="pf-page' + coverCls + '" style="' + style + '">' +
+                 inner +
+               '</div>';
+      }).join("");
+      bookEl().innerHTML = html;
+      bookEl().style.overflowY = "auto";
+      bookEl().style.maxHeight = "100%";
+      wireContentsJump();
+    }
+
+    function flip(dir) {
+      if (!pageFlip) return;
+      if (flipping) return; // ignore mid-transition (Req 5.7 / 9.5)
+      if (dir > 0) pageFlip.flipNext("top");
+      else pageFlip.flipPrev("top");
+    }
+
+    function closeBook() {
+      if (pageFlip) {
+        try { pageFlip.destroy(); } catch (e) { /* no-op */ }
+        pageFlip = null;
+      }
+      overlay.classList.remove("open");
+      portfolioEl.className = "portfolio";
+      portfolioEl.innerHTML = "";
+      if (current.origin) current.origin.focus();
+      current.sector = null;
+      flipping = false;
+    }
+
+    // ---------------- About overlay ----------------
+    const aboutOverlay = document.getElementById("aboutOverlay");
+    const aboutLink = document.getElementById("aboutLink");
+    const aboutReturnBtn = document.getElementById("aboutReturnBtn");
+
+    function openAbout() {
+      aboutOverlay.classList.add("open");
+      aboutReturnBtn.focus();
+    }
+    function closeAbout() {
+      aboutOverlay.classList.remove("open");
+      aboutLink.focus();
+    }
+    aboutLink.addEventListener("click", openAbout);
+    aboutReturnBtn.addEventListener("click", closeAbout);
+    aboutOverlay.addEventListener("click", (e) => { if (e.target === aboutOverlay) closeAbout(); });
+
+    // ---- Folder tabs (ARIA tablist with roving focus + arrow keys) ----
+    const aboutTabs = Array.from(aboutOverlay.querySelectorAll('[role="tab"]'));
+    function selectTab(tab, focusTab) {
+      aboutTabs.forEach((t) => {
+        const selected = t === tab;
+        t.setAttribute("aria-selected", selected ? "true" : "false");
+        t.tabIndex = selected ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute("aria-controls"));
+        if (panel) panel.hidden = !selected;
+      });
+      if (focusTab) tab.focus();
+    }
+    aboutTabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => selectTab(tab, false));
+      tab.addEventListener("keydown", (e) => {
+        let next = null;
+        if (e.key === "ArrowRight") next = aboutTabs[(i + 1) % aboutTabs.length];
+        else if (e.key === "ArrowLeft") next = aboutTabs[(i - 1 + aboutTabs.length) % aboutTabs.length];
+        else if (e.key === "Home") next = aboutTabs[0];
+        else if (e.key === "End") next = aboutTabs[aboutTabs.length - 1];
+        if (next) { e.preventDefault(); selectTab(next, true); }
+      });
+    });
+
+    // ---------------- Keyboard support ----------------
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) closeBook(); });
+    document.addEventListener("keydown", (e) => {
+      if (aboutOverlay.classList.contains("open")) {
+        if (e.key === "Escape") closeAbout();
+        return;
+      }
+      if (!overlay.classList.contains("open")) return;
+      if (e.key === "Escape") closeBook();
+      else if (e.key === "ArrowRight") flip(1);
+      else if (e.key === "ArrowLeft") flip(-1);
+    });
+  </script>
+</body>
+</html>

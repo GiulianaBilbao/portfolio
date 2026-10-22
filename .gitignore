@@ -14,3 +14,11 @@ npm-debug.log*
 *.local
 .vscode/*
 !.vscode/extensions.json
+# --- Keep the CV and personal docs OUT of the repo (not deidentified) ---
+*.docx
+*.pdf
+Bilbao_CV*
+
+# Source image library (the published site uses docs/images/ instead).
+# Keeps the repo lean and avoids committing duplicates/screenshots.
+/images/
